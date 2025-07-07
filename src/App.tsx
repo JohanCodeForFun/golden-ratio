@@ -149,12 +149,13 @@ function App() {
           <h3>Input your wrist measurement (in inches)</h3>
           <form onSubmit={handleCalculate}>
             <input
-              type="text"
+              type="number"
+              min="1"
+              max="23"
+              step="any"
               value={inputValue}
               onChange={handleInputChange}
-              pattern="[0-9]*"
-              inputMode="numeric"
-              placeholder="Enter wrist size"
+              required
             />
             <br />
             <button
