@@ -1,7 +1,17 @@
-import { useEffect } from 'react'
+import { useEffect, useState, type ChangeEvent } from 'react'
 import './App.css'
 
 function App() {
+  const [inputValue, setInputValue] = useState<string>("");
+
+  function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
+    setInputValue(e.target.value)
+  }
+
+  function handleCalculate(e) {
+    e.preventDefault();
+  }
+
   useEffect(() => {
     const canvas = document.getElementById("canvas") as HTMLCanvasElement | null;
     if (canvas && canvas.getContext) {
@@ -23,10 +33,20 @@ function App() {
         <h2>Figure frame</h2>
         <canvas id="canvas" width="120" height="230"></canvas>
       </div>
-      <div>
+      <div className='input'>
         <h3>
-          Ideal measurements
+          input your wrist measerument
         </h3>
+        <input
+          type="text"
+          value={inputValue}
+          onChange={handleInputChange}
+        />
+        <br />
+        <button>calculate!</button>
+      </div>
+
+      <div className='calculation'>
         <table>
           <thead>
             <tr>
@@ -35,7 +55,6 @@ function App() {
             </tr>
           </thead>
           <tbody>
-            {/* Add table rows here */}
           </tbody>
         </table>
       </div>
