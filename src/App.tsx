@@ -95,7 +95,23 @@ function App() {
       <div>
         <h2>Figure frame</h2>
         <canvas id="canvas" width="140" height="200"></canvas>
-
+        {goldenRatioResult === false && (
+          <div
+            style={{
+              width: "140px",
+              height: "200px",
+              background: "rgba(255,255,255,0.7)",
+              backdropFilter: "blur(6px)",
+            }}
+          >
+            <span style={{
+              fontSize: "5rem",
+              color: "#888",
+              fontWeight: "bold",
+              textShadow: "0 2px 8px #fff"
+            }}>?</span>
+          </div>
+        )}
       </div>
 
       {goldenRatioResult === false && (
