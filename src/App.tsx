@@ -1,15 +1,18 @@
-import { useEffect, useState, type ChangeEvent } from 'react'
+import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react'
 import './App.css'
 
 function App() {
   const [inputValue, setInputValue] = useState<string>("");
+  const [goldenRatioResult, setGoldenRatioResult] = useState<boolean>(false);
 
   function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
     setInputValue(e.target.value)
   }
 
-  function handleCalculate(e) {
+  function handleCalculate(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    setGoldenRatioResult(true)
   }
 
   useEffect(() => {
@@ -33,37 +36,43 @@ function App() {
         <h2>Figure frame</h2>
         <canvas id="canvas" width="120" height="230"></canvas>
       </div>
-      <div className='input'>
-        <h3>
-          input your wrist measerument
-        </h3>
-        <form onSubmit={handleCalculate}>
-          <input
-            type="text"
-            value={inputValue}
-            onChange={handleInputChange}
-            pattern='[0-9]*'
-            inputMode='numeric'
-            placeholder='Enter a number'
-          />
-          <br />
-          <button
-          disabled={inputValue === "" || isNaN(Number(inputValue))}>calculate!</button>
-        </form>
-      </div>
 
-      <div className='calculation'>
-        <table>
-          <thead>
-            <tr>
-              <th>Ideal</th>
-              <th>Current</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
-      </div>
+      {goldenRatioResult === false && (
+
+        <div className='input'>
+          <h3>
+            input your wrist measerument
+          </h3>
+          <form onSubmit={handleCalculate}>
+            <input
+              type="text"
+              value={inputValue}
+              onChange={handleInputChange}
+              pattern='[0-9]*'
+              inputMode='numeric'
+              placeholder='Enter a number'
+            />
+            <br />
+            <button
+              disabled={inputValue === "" || isNaN(Number(inputValue))}>calculate!</button>
+          </form>
+        </div>
+      )}
+
+      {goldenRatioResult && (
+        <div className='calculation'>
+          <table>
+            <thead>
+              <tr>
+                <th>Ideal</th>
+                <th>Current</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      )}
     </>
   )
 }
