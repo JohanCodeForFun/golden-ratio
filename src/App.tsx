@@ -37,13 +37,19 @@ function App() {
         <h3>
           input your wrist measerument
         </h3>
-        <input
-          type="text"
-          value={inputValue}
-          onChange={handleInputChange}
-        />
-        <br />
-        <button>calculate!</button>
+        <form onSubmit={handleCalculate}>
+          <input
+            type="text"
+            value={inputValue}
+            onChange={handleInputChange}
+            pattern='[0-9]*'
+            inputMode='numeric'
+            placeholder='Enter a number'
+          />
+          <br />
+          <button
+          disabled={inputValue === "" || isNaN(Number(inputValue))}>calculate!</button>
+        </form>
       </div>
 
       <div className='calculation'>
