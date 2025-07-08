@@ -5,6 +5,14 @@
   text-align: center;
 }
 
+.figure-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 canvas {
   border: 1px solid red;
+  box-sizing: border-box;
 }
