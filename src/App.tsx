@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent, type FormEvent } from 'react';
+import { useState, useEffect, type ChangeEvent, type FormEvent } from 'react';
 import { Canvas, useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { useRef } from 'react';
@@ -9,6 +9,23 @@ import './App.css';
 function Scene({ hovered }: { hovered: boolean }) {
   const gltf = useLoader(GLTFLoader, 'src/assets/anatomy_study_2/figures-low-poly.gltf');
   const ref = useRef<THREE.Object3D>(null);
+
+  // Log the scene graph once after loading
+  useEffect(() => {
+    if (gltf && gltf.scene) {
+      console.log('GLTF Nodes:', gltf.parser.json.nodes);
+      console.log('GLTF Meshes:', gltf.parser.json.meshes);
+      console.log('GLTF Scene Graph:', gltf.scene);
+      // Traverse and log all mesh/group names
+      gltf.scene.traverse((obj) => {
+        if (obj instanceof THREE.Mesh) {
+          console.log('Mesh:', obj.name, obj);
+        } else if (obj instanceof THREE.Group) {
+          console.log('Group:', obj.name, obj);
+        }
+      });
+    }
+  }, [gltf]);
 
   // Animate scale on hover
   useFrame(() => {
