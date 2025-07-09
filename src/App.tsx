@@ -7,19 +7,19 @@ import { useFrame } from '@react-three/fiber';
 import './App.css';
 
 function Scene({ hovered }: { hovered: boolean }) {
-  const gltf = useLoader(GLTFLoader, 'src/assets/anatomy_study_2/scene.gltf');
+  const gltf = useLoader(GLTFLoader, 'src/assets/anatomy_study_2/figures-low-poly.gltf');
   const ref = useRef<THREE.Object3D>(null);
 
   // Animate scale on hover
   useFrame(() => {
     if (ref.current) {
-      const target = hovered ? 5 : 3.5;
-      ref.current.scale.x += (target - ref.current.scale.x) * 1.8;
-      ref.current.scale.y += (target - ref.current.scale.y) * 1.8;
-      ref.current.scale.z += (target - ref.current.scale.z) * 1.8;
+      const target = hovered ? 3 : 1.5;
+      ref.current.scale.x += (target - ref.current.scale.x) * 1.3;
+      ref.current.scale.y += (target - ref.current.scale.y) * 1.3;
+      ref.current.scale.z += (target - ref.current.scale.z) * 1.3;
     
           // Smooth move down when hovered
-      const targetY = hovered ? -6 : -3;
+      const targetY = hovered ? -3 : 0;
       ref.current.position.y += (targetY - ref.current.position.y) * 0.1;
     }
   });
@@ -28,7 +28,7 @@ function Scene({ hovered }: { hovered: boolean }) {
     <primitive
       ref={ref}
       object={gltf.scene}
-      scale={[3.5, 3.5, 3.5]}
+      scale={[0.001, 0.001, 0.001]}
       position={[0, -3, 0]}
     />
   );
