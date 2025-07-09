@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://JohanCodeForFun.github.io/golden-ratio/",
+  "homepage": "https://johancodeforfun.github.io/golden-ratio",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
