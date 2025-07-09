@@ -7,7 +7,7 @@ import { useFrame } from '@react-three/fiber';
 import './App.css';
 
 function Scene({ hovered }: { hovered: boolean }) {
-  const gltf = useLoader(GLTFLoader, 'src/assets/anatomy_study_2/figures-low-poly.gltf');
+  const gltf = useLoader(GLTFLoader, '/golden-ratio/assets/figures-low-poly.gltf');
   const ref = useRef<THREE.Object3D>(null);
 
   // Log the scene graph once after loading
