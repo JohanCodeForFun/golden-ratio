@@ -9,7 +9,9 @@ import './App.css';
 
 function Scene({ hovered }: { hovered: boolean }) {
   const gltf = useLoader(GLTFLoader, '/golden-ratio/assets/figures-low-poly.gltf');
-  const ref = useRef<THREE.Object3D>(null);
+  const modelRef = useRef<THREE.Object3D>(null);
+  const ellipseRef = useRef<THREE.Object3D>(null);
+  const textRef = useRef<THREE.Object3D>(null);
 
   // Log the scene graph once after loading
   useEffect(() => {
@@ -44,42 +46,59 @@ function Scene({ hovered }: { hovered: boolean }) {
 
   // Animate scale on hover
   useFrame(() => {
-    if (ref.current) {
-      const target = hovered ? 3 : 1.5;
-      ref.current.scale.x += (target - ref.current.scale.x) * 1.3;
-      ref.current.scale.y += (target - ref.current.scale.y) * 1.3;
-      ref.current.scale.z += (target - ref.current.scale.z) * 1.3;
+    const targetScale = hovered ? 3 : 1.5;
+    const targetY = hovered ? -3 : 0;
 
-      // Smooth move down when hovered
-      const targetY = hovered ? -3 : 0;
-      ref.current.position.y += (targetY - ref.current.position.y) * 0.1;
+    if (modelRef.current) {
+      modelRef.current.scale.x += (targetScale - modelRef.current.scale.x) * 0.1;
+      modelRef.current.scale.y += (targetScale - modelRef.current.scale.y) * 0.1;
+      modelRef.current.scale.z += (targetScale - modelRef.current.scale.z) * 0.1;
+      modelRef.current.position.y += (targetY - modelRef.current.position.y) * 0.1;
     }
+    if (ellipseRef.current) {
+      ellipseRef.current.scale.x += (targetScale - ellipseRef.current.scale.x) * 0.1;
+      ellipseRef.current.scale.y += (targetScale - ellipseRef.current.scale.y) * 0.1;
+      ellipseRef.current.scale.z += (targetScale - ellipseRef.current.scale.z) * 0.1;
+      ellipseRef.current.position.y += (targetY - ellipseRef.current.position.y) * 0.1;
+    }
+    // Text
+    if (textRef.current) {
+      textRef.current.scale.x += (targetScale - textRef.current.scale.x) * 0.1;
+      textRef.current.scale.y += (targetScale - textRef.current.scale.y) * 0.1;
+      textRef.current.scale.z += (targetScale - textRef.current.scale.z) * 0.1;
+      textRef.current.position.y += (targetY - textRef.current.position.y) * 0.1;
+    }
+
+    // Smooth move down when hovered
+    modelRef.current.position.y += (targetY - modelRef.current.position.y) * 0.1;
   });
 
   return (
     <>
       <primitive
-        ref={ref}
+        ref={modelRef}
         object={gltf.scene}
         scale={[1, 1, 1]}
         position={[0, -3, 0]}
       />
       {/* Ellipse around waist */}
       <line
-        position={[0, waistY - 0.8, 0.25]} // Move to waist in world coordinates
+        ref={ellipseRef}
+        position={[0, waistY - 0.8, .25]} // Move to waist in world coordinates
         scale={[1.301, 1.301, 1.301]} // Match model scale
       >
         <bufferGeometry attach="geometry" {...ellipse} />
         <lineBasicMaterial attach="material" color="yellow" />
       </line>
       <Text
-        position={[1.3, waistY - 0.1, 0.25]} // Adjust X/Y/Z as needed
+        ref={textRef}
+        position={[1, waistY - 0.8, 0.25]} // Adjust X/Y/Z as needed
         fontSize={.30}
         color="yellow"
         anchorX="left"
         anchorY="middle"
       >
-        midja: 80cm
+        Waist: 80cm
       </Text>
     </>
   );
