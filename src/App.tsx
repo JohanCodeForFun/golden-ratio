@@ -12,19 +12,17 @@ function Scene({ hovered }: { hovered: boolean }) {
 
   // Log the scene graph once after loading
   useEffect(() => {
-    if (gltf && gltf.scene) {
-      console.log('GLTF Nodes:', gltf.parser.json.nodes);
-      console.log('GLTF Meshes:', gltf.parser.json.meshes);
-      console.log('GLTF Scene Graph:', gltf.scene);
-      // Traverse and log all mesh/group names
-      gltf.scene.traverse((obj) => {
-        if (obj instanceof THREE.Mesh) {
-          console.log('Mesh:', obj.name, obj);
-        } else if (obj instanceof THREE.Group) {
-          console.log('Group:', obj.name, obj);
-        }
-      });
-    }
+    console.log('GLTF Nodes:', gltf.parser.json.nodes);
+    console.log('GLTF Meshes:', gltf.parser.json.meshes);
+    console.log('GLTF Scene Graph:', gltf.scene);
+    // Traverse and log all mesh/group names
+    gltf.scene.traverse((obj) => {
+      if (obj instanceof THREE.Mesh) {
+        console.log('Mesh:', obj.name, obj);
+      } else if (obj instanceof THREE.Group) {
+        console.log('Group:', obj.name, obj);
+      }
+    });
   }, [gltf]);
 
   // Animate scale on hover
@@ -34,8 +32,8 @@ function Scene({ hovered }: { hovered: boolean }) {
       ref.current.scale.x += (target - ref.current.scale.x) * 1.3;
       ref.current.scale.y += (target - ref.current.scale.y) * 1.3;
       ref.current.scale.z += (target - ref.current.scale.z) * 1.3;
-    
-          // Smooth move down when hovered
+
+      // Smooth move down when hovered
       const targetY = hovered ? -3 : 0;
       ref.current.position.y += (targetY - ref.current.position.y) * 0.1;
     }
@@ -76,8 +74,8 @@ function App() {
         <h2>Figure frame</h2>
         <Canvas
           style={{ width: 300, height: 300 }}
-          onPointerOver={() => setHovered(true)}
-          onPointerOut={() => setHovered(false)}
+          onPointerOver={() => { setHovered(true); }}
+          onPointerOut={() => { setHovered(false); }}
         >
           <Scene hovered={hovered} />
           <ambientLight intensity={0.1} />
