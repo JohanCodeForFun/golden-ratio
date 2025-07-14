@@ -1,7 +1,7 @@
 import { useState, useEffect, type ChangeEvent, type FormEvent } from 'react';
 import { Canvas, useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
-import { useRef } from 'react';
+import { useRef, useMemo } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 import './App.css';
@@ -25,6 +25,22 @@ function Scene({ hovered }: { hovered: boolean }) {
     });
   }, [gltf]);
 
+  const waistY = 0.5; // Set this to the correct y-coordinate for the waist
+
+  // Memoize ellipse geometry
+  const ellipse = useMemo(() => {
+    const curve = new THREE.EllipseCurve(
+      0, waistY,      // ax, ay (center)
+      0.8, 0.12,      // xRadius, yRadius (adjust for your model)
+      0, 2 * Math.PI, // startAngle, endAngle
+      false,          // clockwise
+      0               // rotation
+    );
+    const points = curve.getPoints(50);
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    return geometry;
+  }, [waistY]);
+
   // Animate scale on hover
   useFrame(() => {
     if (ref.current) {
@@ -40,12 +56,22 @@ function Scene({ hovered }: { hovered: boolean }) {
   });
 
   return (
-    <primitive
-      ref={ref}
-      object={gltf.scene}
-      scale={[0.001, 0.001, 0.001]}
-      position={[0, -3, 0]}
-    />
+    <>
+      <primitive
+        ref={ref}
+        object={gltf.scene}
+        scale={[1, 1, 1]}
+        position={[0, -3, 0]}
+      />
+      {/* Ellipse around waist */}
+      <line
+        position={[0, waistY - 0.8, 0.25]} // Move to waist in world coordinates
+        scale={[1.301, 1.301, 1.301]} // Match model scale
+      >
+        <bufferGeometry attach="geometry" {...ellipse} />
+        <lineBasicMaterial attach="material" color="yellow" />
+      </line>
+    </>
   );
 }
 
