@@ -3,6 +3,7 @@ import { Canvas, useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { useRef, useMemo } from 'react';
 import * as THREE from 'three';
+import { Text } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import './App.css';
 
@@ -71,6 +72,15 @@ function Scene({ hovered }: { hovered: boolean }) {
         <bufferGeometry attach="geometry" {...ellipse} />
         <lineBasicMaterial attach="material" color="yellow" />
       </line>
+      <Text
+        position={[1.3, waistY - 0.1, 0.25]} // Adjust X/Y/Z as needed
+        fontSize={.30}
+        color="yellow"
+        anchorX="left"
+        anchorY="middle"
+      >
+        midja: 80cm
+      </Text>
     </>
   );
 }
