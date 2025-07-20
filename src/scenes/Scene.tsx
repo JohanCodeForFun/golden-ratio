@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
-import { useLoader, useFrame, extend } from '@react-three/fiber';
+import { useLoader, useFrame } from '@react-three/fiber';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { useRef, useMemo } from 'react';
 import * as THREE from 'three';
 import { Text } from '@react-three/drei';
-extend({ Line: THREE.Line });
 
 export function Scene({ hovered }: { hovered: boolean }) {
   const gltf = useLoader(GLTFLoader, '/golden-ratio/assets/figures-low-poly.gltf');
@@ -87,13 +86,14 @@ export function Scene({ hovered }: { hovered: boolean }) {
         position={[0, -3, 0]}
       />
       {/* Ellipse around waist */}
-      <line
-        position={[0, waistY - 0.8, .25]} // Move to waist in world coordinates
-        scale={[1.301, 1.301, 1.301]} // Match model scale
-        geometry={ellipse}
+      <primitive
+        ref={ellipseRef}
+        object={new THREE.Line(ellipse)}
+        position={[0, waistY - 0.8, 0.25]} // Move to waist in world coordinates
+        scale={[1.3, 1.3, 1.3]} // Match model scale
       >
         <lineBasicMaterial attach="material" color="yellow" />
-      </line>
+      </primitive>
       <Text
         ref={textRef}
         position={[1, waistY - 0.8, 0.25]} // Adjust X/Y/Z as needed
